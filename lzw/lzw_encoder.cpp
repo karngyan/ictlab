@@ -5,6 +5,18 @@ using namespace std;
 // (symbol, decimel)
 map< string, int > dictionary;
 
+void show_dictionary() {
+    map<int, string> invert_map;
+    for (auto it: dictionary)
+        invert_map.insert(make_pair(it.second, it.first));
+
+    cout << setw(6) << "Indices" << " " << setw(6) << "Symbol" << endl;
+    for (auto it: invert_map) {
+        cout << setw(6) << it.first << " " << setw(6) << it.second << endl; 
+    }
+    cout << endl;
+}
+
 void init_dictionary(string &sss) {
     char null = '#';
     char symbol = 'a';
@@ -26,20 +38,12 @@ void init_dictionary(string &sss) {
     }
 
     cout << "Initial Dictionary: \n";
-    for (auto it: dictionary) {
-        cout << it.first << " " << it.second << endl; 
-    }
+    show_dictionary();
 }
 
-void show_dictionary() {
-    for (auto it: dictionary) {
-        cout << it.first << " " << it.second << endl; 
-    }
-    cout << endl;
-}
 
-string encode(string &s) {
-    string ans = "";
+vector<int> encode(string &s) {
+    vector<int> ans;
     int n = s.size();
     if (n == 0) return ans;
 
@@ -52,8 +56,8 @@ string encode(string &s) {
         dictionary.insert(make_pair(cur_alphabet, dict_size));
         string tmp(1, s[i]);
         cur_alphabet.pop_back();
-        ans += to_string(dictionary[cur_alphabet]);
-        cur_alphabet = tmp;
+        ans.push_back(dictionary[cur_alphabet]);
+        cur_alphabet = tmp; 
         // show_dictionary();
     }
 
@@ -62,19 +66,23 @@ string encode(string &s) {
 
 int main() {
 
-    freopen("in", "r", stdin);
+    freopen("in.encoder", "r", stdin);
 
     string s;
     cin >> s;
-    cout << "Input String: " << endl << s << endl;
+    
+    cout << "Input String: " << endl << s << "\n\n";
     init_dictionary(s);
 
-    string encoded_string = encode(s);
+    vector<int> index_seq = encode(s);
     cout << "Final Dictionary: " << endl; 
     show_dictionary() ;
 
-    cout << "Encoded String: " << endl;
-    cout << encoded_string << endl;
+    cout << "Index Sequence: " << endl;
+    cout << "Length: " << index_seq.size() << endl;
+    for (auto it: index_seq) {
+        cout << it << " ";
+    }
 
 
 
