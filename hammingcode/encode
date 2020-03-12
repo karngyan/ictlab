@@ -1,0 +1,3 @@
+g++ hammingcode_encoder.cpp -std=c++14 -o encode
+./encode.exe
+rm encode.exe
